@@ -78,10 +78,10 @@ func mimicAnswers(in []byte, answers []int) []byte {
 	for idx, char := range in {
 		for _, tmp := range answers {
 			if tmp == count {
-				out[idx] = []byte("X")[0]
+				out[idx] = 'X'
 			}
 		}
-		if char != []byte("\n")[0] {
+		if char != '\n' {
 			count++
 		}
 	}

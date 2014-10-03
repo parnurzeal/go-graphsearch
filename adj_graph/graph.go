@@ -46,21 +46,6 @@ const (
 	OBSTACLE
 )
 
-func (g *Graph) bfsFunc() {
-	// find start node
-	/*startIdx := g.findStartNode()
-	// declare parent for backtrace solution
-	parent := make([]int, len(g.nodes))
-	answers := []int{}
-
-	q := Queue{}
-	q.enqueue(startIdx)
-	for !q.isEmpty() {
-		cur := q.dequeue().(int)
-
-	}*/
-}
-
 func (g *Graph) bfs() []int {
 	passed := make([]bool, len(g.nodes))
 	// find start node

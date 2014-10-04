@@ -72,8 +72,41 @@ func createMazeGraph(in []byte) Graph {
 	return g
 }
 
-func (g *Graph) bfs() {
-
+func (g *Graph) bfs() []int {
+	sNode, err := g.findStartNode()
+	if err != nil {
+		panic(err)
+	}
+	visited := make(map[int]struct{})
+	parent := make(map[int]int)
+	queue := []int{sNode}
+	var answer []int
+	for len(queue) != 0 {
+		cur := queue[0]
+		visited[cur] = struct{}{}
+		queue = queue[1:]
+		switch g.nodes[cur].payload {
+		case ' ', 'S':
+			for key, _ := range g.nodes[cur].adj {
+				if _, ok := visited[key]; ok {
+					continue
+				}
+				parent[key] = cur
+				queue = append(queue, key)
+			}
+		case '|', '-':
+			continue
+		case 'E':
+			answer = append(answer, cur)
+			// backtrack to get answer
+			for _, ok := parent[cur]; ok; _, ok = parent[cur] {
+				cur = parent[cur]
+				answer = append(answer, cur)
+			}
+			break
+		}
+	}
+	return answer
 }
 
 func (g *Graph) findStartNode() (int, error) {
@@ -139,5 +172,8 @@ func main() {
 	g := createMazeGraph(in)
 	answer := g.dfs()
 	out := mimicAnswer(in, answer)
+	fmt.Println(string(out))
+	answer = g.bfs()
+	out = mimicAnswer(in, answer)
 	fmt.Println(string(out))
 }
